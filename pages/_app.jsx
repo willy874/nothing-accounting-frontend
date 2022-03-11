@@ -1,16 +1,12 @@
 import "../styles/globals.css";
-import { useState } from "react";
-import Context from "@/context/index";
+import { GlobalContext } from "@/context";
 
-function MyApp({ Component, pageProps }) {
-  const [state, setContext] = useState({
-    a: "aa",
-  });
+function App({ Component, pageProps }) {
   return (
-    <Context.Provider value={{ state, setContext }}>
+    <GlobalContext>
       <Component {...pageProps} />
-    </Context.Provider>
+    </GlobalContext>
   );
 }
 
-export default MyApp;
+export default App;

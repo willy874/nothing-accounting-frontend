@@ -1,18 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { useEffect, useState, useContext } from "react";
-import Context from "@/context";
+// import { useEffect, useState } from "react";
+import { useStore } from "@/context";
+import { ActionType } from "@/enum";
 
 export default function Home() {
-  const [data, setData] = useState(null);
-  const context = useContext(Context);
-  useEffect(() => {
-    console.log(context);
-    fetch("/api/hello").then((res) => {
-      setData(res);
-    });
-  }, []);
+  const { state, action } = useStore();
   return (
     <div className={styles.container}>
       <Head>
@@ -26,13 +20,18 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
         <button
-          onClick={() => {
-            context.state.a += "a";
-            context.setContext({ ...context.state });
-          }}
+          onClick={() =>
+            action(ActionType.UPDATE_ACCOUNT_COLLECTION, {
+              id: state.account.getList().length + 1,
+            })
+          }
         >
-          {context.state.a}
+          ADD
         </button>
+
+        {state.account.getList().map((account) => (
+          <div key={account.id}>{account.id}</div>
+        ))}
         <p className={styles.description}>
           Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
