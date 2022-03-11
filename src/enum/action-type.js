@@ -1,13 +1,15 @@
 const actionType = {
   /**
-   * @param payload.model
-   * @param payload.callback
+   * @param {import('src/context/example').UpdatePayload} payload
    */
-  UPDATE_EXAMPLE_COLLECTION: 'updateExampleCollection',
+  SET_EXAMPLE_COLLECTION: 'setExampleCollection',
+  /**
+   * @param {import('src/context/example').DeletePayload} payload
+   */
   DELETE_EXAMPLE_COLLECTION: 'deleteExampleCollection'
 }
 
 /**
- * @enum {keyof typeof actionType}
+ * @enum {keyof typeof actionType | string}
  */
 export const ActionType = actionType

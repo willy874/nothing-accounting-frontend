@@ -4,6 +4,6 @@ const routerName = {
 }
 
 /**
- * @enum {keyof typeof routerName}
+ * @enum {keyof typeof routerName | string}
  */
 export const RouterName = routerName

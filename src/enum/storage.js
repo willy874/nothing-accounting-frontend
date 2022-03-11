@@ -4,6 +4,6 @@ const storageKey = {
 }
 
 /**
- * @enum {keyof typeof storageKey}
+ * @enum {keyof typeof storageKey | string}
  */
 export const StorageKey = storageKey

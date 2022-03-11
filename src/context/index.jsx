@@ -2,7 +2,7 @@ import { useContext, createContext, useReducer } from "react";
 import { ActionType } from "@/enum";
 import {
   example,
-  updateExampleCollection,
+  setExampleCollection,
   deleteExampleCollection,
 } from "./example";
 
@@ -32,11 +32,10 @@ export function GlobalContext({ children }) {
 }
 
 export const reducer = (state, { type, payload, action }) => {
-  /** @type {Store} */
   const store = { state, action };
   switch (type) {
     case ActionType.UPDATE_EXAMPLE_COLLECTION:
-      updateExampleCollection(store, payload);
+      setExampleCollection(store, payload);
       break;
     case ActionType.DELETE_EXAMPLE_COLLECTION:
       deleteExampleCollection(store, payload);

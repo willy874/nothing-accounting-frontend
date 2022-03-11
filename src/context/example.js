@@ -1,3 +1,7 @@
+import {
+  isEmpty
+} from "@/utils"
+
 /**
  * @type {ExampleState}
  */
@@ -16,26 +20,53 @@ export const example = {
 }
 
 /**
- * @type {StoreAction<{
- *   model: ExampleModel,
- *   callback: ActionCallback<ExampleModel>
- * }>}
+ * @typedef {Object} UpdatePayload
+ * @property {ExampleModel} model 
+ * @property {ActionCallback<ExampleModel>} [callback]
  */
-export function updateExampleCollection(store, payload) {
+/**
+ * @param {Store} store
+ * @param {UpdatePayload} payload
+ * @return {Promise<void>}
+ */
+export async function setExampleCollection(store, payload) {
   const {
     model,
     callback
   } = payload
-  if (model.id) {
+  if (model && !isEmpty(model.id)) {
+    if (example.collection[model.id]) {
+      // update
+    } else {
+      // insert
+    }
     example.collection[model.id] = model
-    callback(model)
+    if (callback) callback(model)
   }
 }
 
 /**
- * @type {StoreAction<{
- *   id: number,
- *   callback: ActionCallback<ExampleModel>
- * }>}
+ * @typedef {Object} DeletePayload
+ * @property {number} id 
+ * @property {ActionCallback<ExampleModel>} callback 
  */
-export function deleteExampleCollection() {}
+/**
+ * @param {Store} store
+ * @param {DeletePayload} payload
+ * @return {Promise<void>}
+ */
+export async function deleteExampleCollection(store, payload) {
+  const {
+    id,
+    callback
+  } = payload
+  if (!isEmpty(id)) {
+    const model = example.collection[id]
+    if (model) {
+      delete example.collection[id]
+    } else {
+      // is empty
+    }
+    if (callback) callback(model)
+  }
+}
