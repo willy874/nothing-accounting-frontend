@@ -21,16 +21,16 @@ export default function Home() {
         </h1>
         <button
           onClick={() =>
-            action(ActionType.UPDATE_ACCOUNT_COLLECTION, {
-              id: state.account.getList().length + 1,
+            action(ActionType.UPDATE_EXAMPLE_COLLECTION, {
+              id: state.example.getList().length + 1,
             })
           }
         >
           ADD
         </button>
 
-        {state.account.getList().map((account) => (
-          <div key={account.id}>{account.id}</div>
+        {state.example.getList().map((example) => (
+          <div key={example.id}>{example.id}</div>
         ))}
         <p className={styles.description}>
           Get started by editing{" "}

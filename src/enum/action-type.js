@@ -3,8 +3,8 @@ const actionType = {
    * @param payload.model
    * @param payload.callback
    */
-  UPDATE_ACCOUNT_COLLECTION: 'updateAccountCollection',
-  DELETE_ACCOUNT_COLLECTION: 'deleteAccountCollection'
+  UPDATE_EXAMPLE_COLLECTION: 'updateExampleCollection',
+  DELETE_EXAMPLE_COLLECTION: 'deleteExampleCollection'
 }
 
 /**

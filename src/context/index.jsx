@@ -1,19 +1,22 @@
 import { useContext, createContext, useReducer } from "react";
 import { ActionType } from "@/enum";
 import {
-  account,
-  updateAccountCollection,
-  deleteAccountCollection,
-} from "./account";
+  example,
+  updateExampleCollection,
+  deleteExampleCollection,
+} from "./example";
 
 export const Context = createContext();
 
+/**
+ * @returns {Store}
+ */
 export const useStore = () => useContext(Context);
 
 export function GlobalContext({ children }) {
   /** @type {StoreState} */
   const storeState = {
-    account,
+    example,
   };
   const [state, action] = useReducer(reducer, storeState);
   return (
@@ -32,11 +35,11 @@ export const reducer = (state, { type, payload, action }) => {
   /** @type {Store} */
   const store = { state, action };
   switch (type) {
-    case ActionType.UPDATE_ACCOUNT_COLLECTION:
-      updateAccountCollection(store, payload);
+    case ActionType.UPDATE_EXAMPLE_COLLECTION:
+      updateExampleCollection(store, payload);
       break;
-    case ActionType.DELETE_ACCOUNT_COLLECTION:
-      deleteAccountCollection(store, payload);
+    case ActionType.DELETE_EXAMPLE_COLLECTION:
+      deleteExampleCollection(store, payload);
       break;
 
     default:

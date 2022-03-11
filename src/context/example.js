@@ -1,7 +1,7 @@
 /**
- * @type {AccountState}
+ * @type {ExampleState}
  */
-export const account = {
+export const example = {
   collection: {},
   getList() {
     const list = []
@@ -17,17 +17,17 @@ export const account = {
 
 /**
  * @type {StoreAction<{
- *   model: AccountModel,
- *   callback: ActionCallback<AccountModel>
+ *   model: ExampleModel,
+ *   callback: ActionCallback<ExampleModel>
  * }>}
  */
-export function updateAccountCollection(store, payload) {
+export function updateExampleCollection(store, payload) {
   const {
     model,
     callback
   } = payload
   if (model.id) {
-    account.collection[model.id] = model
+    example.collection[model.id] = model
     callback(model)
   }
 }
@@ -35,7 +35,7 @@ export function updateAccountCollection(store, payload) {
 /**
  * @type {StoreAction<{
  *   id: number,
- *   callback: ActionCallback<AccountModel>
+ *   callback: ActionCallback<ExampleModel>
  * }>}
  */
-export function deleteAccountCollection() {}
+export function deleteExampleCollection() {}

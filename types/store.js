@@ -5,7 +5,7 @@
  */
 /**
  * @typedef {Object} StoreState
- * @property {AccountState} account
+ * @property {ExampleState} example
  */
 /**
  * @template T
@@ -15,7 +15,7 @@
  * @return {void}
  */
 /**
- * @typedef {Object} AccountState
- * @property {{ [key: any]: AccountModel }} collection
- * @property {() => AccountModel[]} getList
+ * @typedef {Object} ExampleState
+ * @property {{ [key: any]: ExampleModel }} collection
+ * @property {() => ExampleModel[]} getList
  */

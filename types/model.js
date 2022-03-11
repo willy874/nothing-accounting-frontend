@@ -1,4 +1,4 @@
 /**
- * @typedef {Object} AccountModel
+ * @typedef {Object} ExampleModel
  * @property {number} id
  */
