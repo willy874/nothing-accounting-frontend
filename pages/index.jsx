@@ -4,6 +4,7 @@ import styles from "../styles/Home.module.css";
 // import { useEffect, useState } from "react";
 import { useStore } from "@/context";
 import { ActionType } from "@/enum";
+import { http } from "@/utils";
 
 export default function Home() {
   const { state, action } = useStore();

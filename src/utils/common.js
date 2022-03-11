@@ -117,3 +117,48 @@ export function isTextExcludes(data, text) {
   }
   return true;
 }
+
+class FileName {
+  constructor(name) {
+    this.data = [];
+    const last = name.lastIndexOf('.')
+    this.ext = last >= 0 ? name.substring(last) : ''
+    this.name = name.replace(this.ext, '')
+    let index = this.data.push(this.name[0])
+    for (let i = 1; i < this.name.length; i++) {
+      const str = this.name[i]
+      switch (true) {
+        case /\.|-|_|\s/.test(str):
+          i++
+          index = this.data.push(this.name[i])
+          break
+        case /[A-Z]/.test(str):
+          index = this.data.push(str)
+          break
+        default:
+          this.data[index - 1] += str
+      }
+    }
+  }
+  transformUpperHump() {
+    return this.data.filter(s => s).map((s) => s[0].toUpperCase() + s.substring(1)).join('');
+  }
+  transformLowerHump() {
+    return this.data.filter(s => s).map((s, i) => {
+      if (i === 0) {
+        return s[0].toLowerCase() + s.substring(1);
+      }
+      return s[0].toUpperCase() + s.substring(1);
+    }).join('');
+  }
+  transformKebabCase() {
+    return this.data.join('-');
+  }
+  transformSnakeCase() {
+    return this.data.join('_');
+  }
+}
+
+export function createFileName(value) {
+  return new FileName(value)
+}
