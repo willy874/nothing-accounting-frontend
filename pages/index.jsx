@@ -2,8 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
-import { useStore } from "@/context";
-import { ActionType } from "@/enum";
+import { useStore } from "@/contexts";
+import { ActionType } from "@/enums";
 import { http } from "@/utils";
 
 export default function Home() {

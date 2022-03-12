@@ -9,7 +9,7 @@
  */
 /**
  * @callback StoreAction
- * @param {import('src/enum/action-type').ActionType} type
+ * @param {import('@/enums/action-type').ActionType} type
  * @param {*} payload
  * @return {void}
  */

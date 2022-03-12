@@ -1,5 +1,5 @@
 import { useContext, createContext, useReducer } from "react";
-import { ActionType } from "@/enum";
+import { ActionType } from "@/enums";
 import {
   example,
   setExampleCollection,

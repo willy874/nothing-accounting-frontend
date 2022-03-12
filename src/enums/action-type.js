@@ -1,10 +1,10 @@
 const actionType = {
   /**
-   * @param {import('src/context/example').UpdatePayload} payload
+   * @param {import('@/contexts/example').UpdatePayload} payload
    */
   SET_EXAMPLE_COLLECTION: 'setExampleCollection',
   /**
-   * @param {import('src/context/example').DeletePayload} payload
+   * @param {import('@/contexts/example').DeletePayload} payload
    */
   DELETE_EXAMPLE_COLLECTION: 'deleteExampleCollection'
 }
