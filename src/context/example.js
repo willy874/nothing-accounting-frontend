@@ -34,6 +34,7 @@ export async function setExampleCollection(store, payload) {
     model,
     callback
   } = payload
+  console.log(model);
   if (model && !isEmpty(model.id)) {
     if (example.collection[model.id]) {
       // update

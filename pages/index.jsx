@@ -1,13 +1,16 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "@/context";
 import { ActionType } from "@/enum";
 import { http } from "@/utils";
 
 export default function Home() {
   const { state, action } = useStore();
+  useEffect(() => {
+    http.get("/api/hello");
+  }, []);
   return (
     <div className={styles.container}>
       <Head>
@@ -21,11 +24,12 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
         <button
-          onClick={() =>
-            action(ActionType.UPDATE_EXAMPLE_COLLECTION, {
-              id: state.example.getList().length + 1,
-            })
-          }
+          onClick={() => {
+            action(ActionType.SET_EXAMPLE_COLLECTION, {
+              model: { id: state.example.getList().length + 1 },
+            });
+            console.log(state);
+          }}
         >
           ADD
         </button>

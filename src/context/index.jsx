@@ -34,7 +34,7 @@ export function GlobalContext({ children }) {
 export const reducer = (state, { type, payload, action }) => {
   const store = { state, action };
   switch (type) {
-    case ActionType.UPDATE_EXAMPLE_COLLECTION:
+    case ActionType.SET_EXAMPLE_COLLECTION:
       setExampleCollection(store, payload);
       break;
     case ActionType.DELETE_EXAMPLE_COLLECTION:
