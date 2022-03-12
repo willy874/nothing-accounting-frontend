@@ -1,11 +1,11 @@
 import "../styles/globals.css";
-import { GlobalContext } from "@/context";
+import { GlobalProvider } from "@/context";
 
 function App({ Component, pageProps }) {
   return (
-    <GlobalContext>
+    <GlobalProvider>
       <Component {...pageProps} />
-    </GlobalContext>
+    </GlobalProvider>
   );
 }
 

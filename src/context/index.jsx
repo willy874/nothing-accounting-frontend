@@ -9,11 +9,12 @@ import {
 export const Context = createContext();
 
 /**
+ * 很吃效能，僅慎使用。
  * @returns {Store}
  */
 export const useStore = () => useContext(Context);
 
-export function GlobalContext({ children }) {
+export function GlobalProvider({ children }) {
   /** @type {StoreState} */
   const storeState = {
     example,
