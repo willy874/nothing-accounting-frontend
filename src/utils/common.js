@@ -71,21 +71,22 @@ export function isNumberEmpty(value) {
 }
 
 export function isEmpty(value) {
-  if (value === undefined)
-    return true;
-  if (value === null)
-    return true;
-  if (isNumberEmpty(value))
-    return true;
-  if (isStringEmpty(value))
-    return true;
-  if (isArrayEmpty(value))
-    return true;
-  if (isObjectEmpty(value))
-    return true;
-  if (isBlobEmpty(value))
-    return true;
-  return false;
+  switch (true) {
+    case value === undefined:
+      return true;
+    case isNumberEmpty(value):
+      return true;
+    case isStringEmpty(value):
+      return true;
+    case isArrayEmpty(value):
+      return true;
+    case isObjectEmpty(value):
+      return true;
+    case isBlobEmpty(value):
+      return true;
+    default:
+      return false;
+  }
 }
 
 export function isTextIncludes(data, text) {

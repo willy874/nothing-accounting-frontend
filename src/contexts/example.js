@@ -58,7 +58,7 @@ export async function setExampleCollection(store, payload) {
 export async function deleteExampleCollection(store, payload) {
   const {
     id,
-    callback
+    callback,
   } = payload
   if (!isEmpty(id)) {
     const model = example.collection[id]
