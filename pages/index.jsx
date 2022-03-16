@@ -2,12 +2,12 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
-import { useStore } from "@/contexts";
+import { useGlobalContext } from "@/contexts";
 import { ActionType } from "@/enums";
 import { http } from "@/utils";
 
 export default function Home() {
-  const { state, action } = useStore();
+  const { state, action } = useGlobalContext();
   useEffect(() => {
     http.get("/api/hello");
   }, []);
