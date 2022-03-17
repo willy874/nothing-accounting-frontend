@@ -1,11 +1,21 @@
 /**
  * @typedef {Object} Store
  * @property {StoreState} state
- * @property {StoreAction} action
+ * @property {StoreAction} dispatch 
  */
 /**
- * @typedef {Object} StoreState
- * @property {ExampleState} example
+ * @template T
+ * @typedef {Object} DispatchStore
+ * @property {StoreState} rootState
+ * @property {T} state
+ * @property {StoreAction} dispatch 
+ */
+/**
+ * @typedef {Object} DispatchParam
+ * @property {import('@/enums/action-type').ActionType} type
+ * @property {import('react').Dispatch<DispatchParam>} dispatchState
+ * @property {*} payload
+ * 
  */
 /**
  * @callback StoreAction
@@ -14,7 +24,6 @@
  * @return {void}
  */
 /**
- * @typedef {Object} ExampleState
- * @property {{ [key: string]: ExampleModel }} collection
- * @property {() => ExampleModel[]} getList
+ * @typedef {Object} StoreState
+ * @property {import('@/contexts/example').ExampleState} example
  */

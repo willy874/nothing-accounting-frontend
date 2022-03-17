@@ -1,16 +1,18 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { useEffect, useState } from "react";
-import { useGlobalContext } from "@/contexts";
+import { useState } from "react";
+import { useStore } from "@/contexts";
 import { ActionType } from "@/enums";
-import { http } from "@/utils";
+import { getExample } from "@/services/example"
+import { useHttpRequest } from "@/hooks/http";
+
+const param = {}
 
 export default function Home() {
-  const { state, action } = useGlobalContext();
-  useEffect(() => {
-    http.get("/api/hello");
-  }, []);
+  const [count, setCount] = useState(0)
+  const { state, dispatch } = useStore();
+  const { data } = useHttpRequest(getExample, param)
   return (
     <div className={styles.container}>
       <Head>
@@ -23,15 +25,22 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+        {data && data.map((m) => <span key={m.id}>{m.name}</span>)}
         <button
+          className={'bg-red-500'}
           onClick={() => {
-            action(ActionType.SET_EXAMPLE_COLLECTION, {
+            dispatch(ActionType.SET_EXAMPLE_COLLECTION, {
               model: { id: state.example.getList().length + 1 },
             });
-            console.log(state);
           }}
         >
           ADD
+        </button>
+        <button
+          className={'bg-blue-500'}
+          onClick={() => setCount(count + 1)}
+        >
+          Count = {count}
         </button>
 
         {state.example.getList().map((example) => (

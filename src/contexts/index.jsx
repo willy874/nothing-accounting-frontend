@@ -1,55 +1,44 @@
-import { useContext, createContext, useReducer } from "react";
+import { useContext, createContext, useReducer, useEffect } from "react";
 import reducer from './reducer'
 import {
   example,
 } from "./example";
 
-export const GlobalContext = createContext();
+const GlobalContext = createContext(null);
+
+/** @type {StoreState} */
+const storeState = {
+  example,
+};
 
 /**
- * 很吃效能，僅慎使用。
  * @returns {Store}
  */
-export const useGlobalContext = () => useContext(GlobalContext);
+export const useStore = () => useContext(GlobalContext);
 
-export function GlobalProvider({ children }) {
-  const storeState = {
-    example,
-  };
-  const [state, action] = useReducer(reducer, storeState);
+/**
+ * @typedef {Object} ProviderProps
+ * @property {JSX.Element} children 
+ * @property {(state: StoreState, dispatch: StoreAction) => void} [onStateChange] 
+ */
+/**
+ * @param {ProviderProps} props 
+ * @returns {JSX.Element} 
+ */
+export function Provider(props) {
+  const { children, onStateChange } = props
+  const [state, dispatchState] = useReducer(reducer, storeState);
+  /** @type {StoreAction} */
+  const dispatch = (type, payload) => dispatchState({ type, payload, dispatchState })
+  useEffect(() => {
+    console.log(state);
+    if (onStateChange) {
+      onStateChange(state, dispatch)
+    } 
+  }, [state, onStateChange]);
   return (
-    <GlobalContext.Provider
-      value={{
-        state,
-        action: (type, payload) => action({ type, payload, action }),
-      }}
-    >
+    <GlobalContext.Provider value={{ state, dispatch }}>
       {children}
     </GlobalContext.Provider>
-  );
-}
-
-
-export const ExampleContext = createContext();
-
-/**
- * @returns {Store}
- */
-export const useExampleContext = () => useContext(ExampleContext);
-
-export function ExampleProvider({ children }) {
-  const storeState = {
-    example,
-  };
-  const [state, action] = useReducer(reducer, storeState);
-  return (
-    <ExampleContext.Provider
-      value={{
-        state,
-        action: (type, payload) => action({ type, payload, action }),
-      }}
-    >
-      {children}
-    </ExampleContext.Provider>
   );
 }

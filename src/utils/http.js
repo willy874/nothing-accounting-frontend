@@ -1,3 +1,4 @@
+const baseUrl = 'api'
 export class HttpError extends Error {
   constructor(args) {
     super(args);
@@ -20,7 +21,7 @@ export function createHttpError(error) {
  */
 async function requestHandler(url, init) {
   try {
-    const request = new Request(url, init);
+    const request = new Request(baseUrl + url, init);
     return request
   } catch (error) {
     return await requestErrorHandler(createHttpError(error))
@@ -44,7 +45,7 @@ async function responseHandler(request) {
     const response = await fetch(request)
     const contentType = response.headers.get('Content-Type')
     if (/application\/json/.test(contentType)) {
-      response.json()
+      return await response.json()
     }
     return await response.text()
   } catch (error) {

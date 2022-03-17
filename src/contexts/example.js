@@ -1,7 +1,15 @@
 import {
+  ActionType
+} from "@/enums"
+import {
   isEmpty
 } from "@/utils"
 
+/**
+ * @typedef {Object} ExampleState
+ * @property {{ [key: string]: ExampleModel }} collection
+ * @property {() => ExampleModel[]} getList
+ */
 /**
  * @type {ExampleState}
  */
@@ -25,7 +33,7 @@ export const example = {
  * @property {ActionCallback<ExampleModel>} [callback]
  */
 /**
- * @param {Store} store
+ * @param {DispatchStore<ExampleState>} store
  * @param {UpdatePayload} payload
  * @return {Promise<void>}
  */
@@ -51,7 +59,7 @@ export async function setExampleCollection(store, payload) {
  * @property {ActionCallback<ExampleModel>} callback 
  */
 /**
- * @param {Store} store
+ * @param {DispatchStore<ExampleState>} store
  * @param {DeletePayload} payload
  * @return {Promise<void>}
  */
@@ -69,4 +77,29 @@ export async function deleteExampleCollection(store, payload) {
     }
     if (callback) callback(model)
   }
+}
+
+/**
+ * @param {ActionType} type 
+ * @param {DispatchStore<StoreState>} store 
+ * @param {*} payload
+ * @returns {boolean}
+ */
+export function exampleReducer(type, store, payload) {
+  /** @type {DispatchStore<ExampleState>}*/
+  const scopeStore = {
+    ...store,
+    state: example,
+  }
+  switch (type) {
+    case ActionType.SET_EXAMPLE_COLLECTION:
+      setExampleCollection(scopeStore, payload);
+      break;
+    case ActionType.DELETE_EXAMPLE_COLLECTION:
+      deleteExampleCollection(scopeStore, payload);
+      break;
+    default:
+      return false;
+  }
+  return true;
 }
