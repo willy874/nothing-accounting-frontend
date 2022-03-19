@@ -1,4 +1,5 @@
 import { useContext, createContext, useReducer, useEffect, useCallback, useState } from "react";
+import { defineTypeClone } from "@/utils";
 import * as dialog from "./dialog";
 import * as example from "./example";
 
@@ -7,27 +8,21 @@ const config = {
   dialog,
 }
 
+
+
 /**
  * @param {typeof config} modules
- * @returns {{
- *   state: StoreStateModules<typeof config>;
- *   getters: StoreGetterModules<typeof config>;
- *   actions: StoreActionModules<typeof config>;
- * }}
+ * @returns {StoreModules}
  */
 const resolveModules = function (modules) {
-  const store = {
-    state: {},
-    getters: {},
-    actions: {},
-  };
+  /** @type {StoreModules} */
+  const store = defineTypeClone({ state: {}, getters: {}, actions: {} });
   for (const key in modules) {
     const module = modules[key];
     store.state[key] = module.state;
     store.getters[key] = module.getters;
     store.actions[key] = module.actions
   }
-  // @ts-ignore
   return store
 }
 
@@ -54,9 +49,9 @@ const getState = function (name) {
 }
 
 /**
- * @param {StoreGetterData<typeof config>} getters
+ * @param {StoreGetters} getters
  * @param {string} name
- * @return {{ [K in keyof typeof config]: Record<string, ReturnType<StoreModuleGetters[K]>> }}
+ * @return {StoreGetters}
  */
 const getGetters = function (getters ,name) {
   /** @type {StoreModuleGetters} */
@@ -109,16 +104,15 @@ export default function reducer(rootState, params) {
   };
 };
 
+
 /**
- * @callback useStoreBase
  * @returns {Store}
  */
 const useStoreBase = function () {
   const [state, setState] = useReducer(reducer, storeState)
   const [getters, setGetters] = useState(() => {
-    /** @type {{ [K in keyof StoreGetters]: {} }} */
-    // @ts-ignore
-    const data = {}
+    /** @type {StoreGetters} */
+    const data = defineTypeClone({})
     for (const key in storeGetters) {
       getGetters(data, key)
     }
@@ -150,7 +144,6 @@ export function Provider(props) {
     console.log('state', state);
     console.log('getters', getters);
     if (onStateChange) {
-      // @ts-ignore
       onStateChange({ state, getters, dispatch })
     }
   }, [state, getters, dispatch, onStateChange]);

@@ -27,15 +27,17 @@
  * @property {(name: string) => void} updateGetters
  */
 /**
+ * @typedef {Object} StoreModules
+ * @property {StoreStateModules<StoreState>} state
+ * @property {StoreGetterModules<StoreGetters>} getters
+ * @property {StoreActionModules<StoreState>} actions
+ */
+/**
  * @template T
  * @typedef {Record<keyof T, object>} StoreStateModules
  */
 /**
  * @typedef {Record<string,(state: unknown) => unknown>} StoreModuleGetters
- */
-/**
- * @template T
- * @typedef {Record<keyof T, Record<string,any>>} StoreGetterData
  */
 /**
  * @template T
