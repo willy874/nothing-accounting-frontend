@@ -3,15 +3,16 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import { useStore } from "@/contexts";
-import { ActionType } from "@/enums";
+import { DispatchType } from "@/enums";
 import { getExample } from "@/services/example"
-import { useHttpRequest } from "@/hooks/http";
+import { useHttpRequest } from "@/hooks";
+import { useForm } from "react-hook-form";
 
 const param = {}
 
 export default function Home() {
   const [count, setCount] = useState(0)
-  const { state, dispatch } = useStore();
+  const { state, getters, dispatch } = useStore();
   const { data } = useHttpRequest(getExample, param)
   return (
     <div className={styles.container}>
@@ -29,9 +30,7 @@ export default function Home() {
         <button
           className={'bg-red-500'}
           onClick={() => {
-            dispatch(ActionType.SET_EXAMPLE_COLLECTION, {
-              model: { id: state.example.getList().length + 1 },
-            });
+            dispatch(DispatchType.SET_EXAMPLE_COLLECTION, { id: getters.example.exampleList.length + 1 });
           }}
         >
           ADD
@@ -43,7 +42,7 @@ export default function Home() {
           Count = {count}
         </button>
 
-        {state.example.getList().map((example) => (
+        {getters.example.exampleList.map((example) => (
           <div key={example.id}>{example.id}</div>
         ))}
         <p className={styles.description}>
