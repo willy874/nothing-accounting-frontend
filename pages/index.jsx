@@ -4,16 +4,18 @@ import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import { useStore } from "@/contexts";
 import { DispatchType } from "@/enums";
-import { getExample } from "@/services/example"
+import { getExample } from "@/services/example";
 import { useHttpRequest } from "@/hooks";
 import { useForm } from "react-hook-form";
+import { Dialog } from "@/components/dialog";
 
-const param = {}
+const param = {};
 
 export default function Home() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
   const { state, getters, dispatch } = useStore();
-  const { data } = useHttpRequest(getExample, param)
+  const { data } = useHttpRequest(getExample, param);
+  const [cancel, setCancel] = useState(false);
   return (
     <div className={styles.container}>
       <Head>
@@ -23,22 +25,26 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        {/* Dialog component example */}
+        {/* TODO use context */}
+        <button onClick={() => setCancel(!cancel)}>dialog open</button>
+        {cancel && <Dialog onCancel={() => setCancel(!cancel)} />}
+
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
         {data && data.map((m) => <span key={m.id}>{m.name}</span>)}
         <button
-          className={'bg-red-500'}
+          className={"bg-red-500"}
           onClick={() => {
-            dispatch(DispatchType.SET_EXAMPLE_COLLECTION, { id: getters.example.exampleList.length + 1 });
+            dispatch(DispatchType.SET_EXAMPLE_COLLECTION, {
+              id: getters.example.exampleList.length + 1,
+            });
           }}
         >
           ADD
         </button>
-        <button
-          className={'bg-blue-500'}
-          onClick={() => setCount(count + 1)}
-        >
+        <button className={"bg-blue-500"} onClick={() => setCount(count + 1)}>
           Count = {count}
         </button>
 
