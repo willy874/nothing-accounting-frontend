@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "downlevelIteration": true,
     "jsx": "react-jsx",
     "checkJs": true,
     "baseUrl": ".",
