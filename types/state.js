@@ -8,19 +8,16 @@
  * @property {{ [key: string]: ExampleModel }} collection
  */
 /**
- * @typedef {Object} StorageSettings
- * @property {Set<import('@/enums').StorageKey>} keys
- * @property {Storage} storage
- */
-/**
  * @typedef {Object} StoragePayload
+ * @property {Storage} storage
  * @property {import('@/enums').StorageKey} key
  * @property {string} value
  */
 /**
  * @typedef {Object} StorageState
- * @property {StorageSettings} local
- * @property {StorageSettings} session
+ * @property {Set<import('@/enums').StorageKey>} keys
+ * @property {Storage | null} storage
+ * @property {{ [key: string]: string }} value
  */
 /**
  * @typedef {Object} DialogState
