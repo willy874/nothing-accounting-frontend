@@ -163,5 +163,3 @@ class FileName {
 export function createFileName(value) {
   return new FileName(value)
 }
-
-export const defineTypeClone = (c) => JSON.parse(JSON.stringify(c))
