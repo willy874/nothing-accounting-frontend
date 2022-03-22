@@ -1,22 +1,26 @@
 import {
   DispatchType
 } from "@/enums"
+import {
+  cloneJson
+} from "@/utils"
+import {
+  StorageKey
+} from "@/enums"
 
-const local = {}
-const session = {}
+let init = true
+
+const defaultStorage = {
+  [StorageKey.TOKEN]: ''
+}
 
 /**
  * @type {StorageState}
  */
 export const state = {
-  local: {
-    keys: new Set(Object.keys(local)),
-    storage: window.localStorage
-  },
-  session: {
-    keys: new Set(Object.keys(session)),
-    storage: window.sessionStorage
-  }
+  keys: new Set(Object.keys(defaultStorage)),
+  storage: null,
+  value: cloneJson(defaultStorage)
 }
 
 /**
@@ -25,84 +29,51 @@ export const state = {
 export const getters = {
   /**
    * @param {StorageState} state 
-   * @returns {typeof local}
+   * @returns {typeof defaultStorage | {}}
    */
-  local(state) {
-    for (const iterator of state.local.keys) {
-      if (Object.hasOwnProperty.call(local, iterator)) {
-        local[iterator] = state.local.storage.getItem(iterator)
-      }
+  value(state) {
+    if (init) {
+      init = false
     }
-    return local
+    if (state.storage) {
+      for (const iterator of state.keys) {
+        if (Object.hasOwnProperty.call(state.value, iterator)) {
+          const value = state.storage.getItem(iterator)
+          state.value[iterator] = init ? (value || defaultStorage[iterator]) : value
+        }
+      }
+      return state.value
+    }
+    return {}
   },
-  /**
-   * @param {StorageState} state 
-   * @returns {typeof local}
-   */
-  session(state) {
-    for (const iterator of state.session.keys) {
-      if (Object.hasOwnProperty.call(session, iterator)) {
-        session[iterator] = state.session.storage.getItem(iterator)
-      }
-    }
-    return session
-  }
 }
 
 /**
  * @type {{ [key: DispatchType]: StoreAction<StorageState,unknown,unknown> }}
  */
 export const actions = {
-  /** @type {StoreAction<StorageState,StoragePayload,void>}*/
-  async [DispatchType.SET_LOCAL_STORAGE](store, payload) {
-    if (Object.hasOwnProperty.call(store.state.local, payload.key)) {
-      local[payload.key] = payload.value
-      state.local.storage.setItem(payload.key, payload.value)
+  /** @type {StoreAction<StorageState,(value: StorageState) => StorageState,void>}*/
+  async [DispatchType.SET_STORAGE_SETTING](store, payload) {
+    const result = payload(store.state)
+    if (result === store.state) {
+      store.state.storage = result.storage
+      store.state.keys = result.keys
     }
   },
   /** @type {StoreAction<StorageState,StoragePayload,void>}*/
-  async [DispatchType.REMOVE_LOCAL_STORAGE](store, payload) {
-    if (Object.hasOwnProperty.call(store.state.local, payload.key)) {
-      delete local[payload.key]
-      state.local.storage.remove(payload.key)
+  async [DispatchType.SET_STORAGE](store, payload) {
+    const storage = payload.storage || store.state.storage
+    if (storage && store.state.keys.has(payload.key)) {
+      store.state.value[payload.key] = payload.value
+      storage.setItem(payload.key, payload.value)
     }
   },
   /** @type {StoreAction<StorageState,StoragePayload,void>}*/
-  async [DispatchType.ADD_LOCAL_STORAGE_KEY](store, payload) {
-    if (!local.keys.has(payload.key)) {
-      store.state.local.keys.add(payload.key)
-    }
-  },
-  /** @type {StoreAction<StorageState,StoragePayload,void>}*/
-  async [DispatchType.DELETE_LOCAL_STORAGE_KEY](store, payload) {
-    if (store.state.local.keys.has(payload.key)) {
-      store.state.local.keys.delete(payload.key)
-    }
-  },
-  /** @type {StoreAction<StorageState,StoragePayload,void>}*/
-  async [DispatchType.SET_SESSION_STORAGE](store, payload) {
-    if (Object.hasOwnProperty.call(store.state.session, payload.key)) {
-      session[payload.key] = payload.value
-      state.session.storage.setItem(payload.key, payload.value)
-    }
-  },
-  /** @type {StoreAction<StorageState,StoragePayload,void>}*/
-  async [DispatchType.REMOVE_SESSION_STORAGE](store, payload) {
-    if (Object.hasOwnProperty.call(store.state.session, payload.key)) {
-      delete store.state.session[payload.key]
-      state.session.storage.remove(payload.key)
-    }
-  },
-  /** @type {StoreAction<StorageState,StoragePayload,void>}*/
-  async [DispatchType.ADD_SESSION_STORAGE_KEY](store, payload) {
-    if (!store.state.session.keys.has(payload.key)) {
-      store.state.session.keys.add(payload.key)
-    }
-  },
-  /** @type {StoreAction<StorageState,StoragePayload,void>}*/
-  async [DispatchType.DELETE_SESSION_STORAGE_KEY](store, payload) {
-    if (store.state.session.keys.has(payload.key)) {
-      store.state.session.keys.delete(payload.key)
+  async [DispatchType.REMOVE_STORAGE](store, payload) {
+    const storage = payload.storage || store.state.storage
+    if (storage && store.state.keys.has(payload.key)) {
+      delete state.value[payload.key]
+      storage.removeItem(payload.key)
     }
   },
 }

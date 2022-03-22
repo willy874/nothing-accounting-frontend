@@ -7,14 +7,9 @@ const dispatchType = {
   /**
    * @type {import('@/contexts/storage').actions} 
    */
-  SET_LOCAL_STORAGE: 'setLocalStorage',
-  REMOVE_LOCAL_STORAGE: 'removeLocalStorage',
-  ADD_LOCAL_STORAGE_KEY: 'addLocalStorageKey',
-  DELETE_LOCAL_STORAGE_KEY: 'deleteLocalStorageKey',
-  SET_SESSION_STORAGE: 'setSessionStorage',
-  REMOVE_SESSION_STORAGE: 'removeSessionStorage',
-  ADD_SESSION_STORAGE_KEY: 'addSessionStorageKey',
-  DELETE_SESSION_STORAGE_KEY: 'deleteSessionStorageKey',
+  SET_STORAGE_SETTING: 'setStorageSetting',
+  SET_STORAGE: 'setLocalStorage',
+  REMOVE_STORAGE: 'removeLocalStorage',
 }
 
 /**
