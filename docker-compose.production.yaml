@@ -1,0 +1,8 @@
+
+version: "3.7"
+
+services:
+  frontend:
+    image: willy/nothing-accounting-frontend:$docker_image_tag
+    ports:
+      - 3000:3000
