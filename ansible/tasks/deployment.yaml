@@ -16,4 +16,5 @@
   command: docker-compose -f docker-compose.yaml -d
   args:
     chdir: "{{ repo_dir }}"
-  environment: "{{ docker_image_tag }}"
+  environment:
+    docker_image_tag: "{{ docker_image_tag }}"
