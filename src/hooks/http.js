@@ -7,20 +7,16 @@ import {
 } from "@/utils/http"
 
 /**
- * @template T
- * @typedef {Object} FetchHookResult
- * @property {T | null} data
- * @property {HttpError} error
- * @property {boolean} loading
- */
-/**
- * @template T
  * @param {string} req 
  * @param {RequestInit} [payload]
  * @returns {FetchHookResult<unknown>}
- * @callback HttpRequestA
+ * @example
+```js
+const { data, error, loading } = useFetch('/api/example', params);
+```
  */
 export function useFetch(req, payload) {
+  const [request, updateRequest] = useState(payload);
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,7 +25,7 @@ export function useFetch(req, payload) {
     setData(null);
     setError(null);
     try {
-      fetch(req, payload)
+      fetch(req, request)
         .then((res) => {
           if (res.ok) {
             return res.json()
@@ -44,20 +40,26 @@ export function useFetch(req, payload) {
       setLoading(false);
       setError(error);
     }
-  }, [req, payload])
+  }, [req, request])
   return {
     data,
     error,
-    loading
+    loading,
+    updateRequest
   }
 }
+
 /**
- * @template T,D
- * @param {HttpRequest<T,D>} req 
- * @param {D} [payload]
+ * @template T
+ * @param {() => ReturnType<HttpRequest<T,unknown>>} req
  * @returns {FetchHookResult<T>}
+ * @example
+```js
+const { data, error, reload, loading } = useHttpRequest(() => getExample());
+```
  */
-export function useHttpRequest(req, payload) {
+export function useHttpRequest(req) {
+  const [requestPromise, reload] = useState(req)
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -66,7 +68,7 @@ export function useHttpRequest(req, payload) {
     setData(null);
     setError(null);
     try {
-      req(payload)
+      requestPromise
         .then((res) => {
           if (res instanceof HttpError) {
             throw res
@@ -79,10 +81,11 @@ export function useHttpRequest(req, payload) {
       setLoading(false);
       setError(error);
     }
-  }, [req, payload])
+  }, [requestPromise])
   return {
     data,
     error,
+    reload,
     loading
   }
 }

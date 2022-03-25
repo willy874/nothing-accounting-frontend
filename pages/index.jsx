@@ -6,15 +6,12 @@ import { useStore } from "@/contexts";
 import { DispatchType } from "@/enums";
 import { getExample } from "@/services/example";
 import { useHttpRequest } from "@/hooks";
-import { useForm } from "react-hook-form";
 import { Dialog } from "@/components/dialog";
-
-const param = {};
 
 export default function Home() {
   const [count, setCount] = useState(0);
   const { state, getters, dispatch } = useStore();
-  const { data } = useHttpRequest(getExample, param);
+  const { data } = useHttpRequest(() => getExample());
   const [cancel, setCancel] = useState(false);
   return (
     <div className={styles.container}>
