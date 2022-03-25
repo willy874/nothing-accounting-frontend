@@ -6,11 +6,13 @@ import { useStore } from "@/contexts";
 import { DispatchType } from "@/enums";
 import { getExample } from "@/services/example";
 import { useHttpRequest } from "@/hooks";
+import { Dialog } from "@/components/dialog";
 
 export default function Home() {
   const [count, setCount] = useState(0);
   const { state, getters, dispatch } = useStore();
   const { data } = useHttpRequest(() => getExample());
+  const [cancel, setCancel] = useState(false);
   return (
     <div className={styles.container}>
       <Head>
@@ -20,6 +22,11 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        {/* Dialog component example */}
+        {/* TODO use context */}
+        <button onClick={() => setCancel(!cancel)}>dialog open</button>
+        {cancel && <Dialog onCancel={() => setCancel(!cancel)} />}
+
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
