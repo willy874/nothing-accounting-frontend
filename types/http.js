@@ -17,3 +17,19 @@
  * @property {string} message
  * @property {T} [data]
  */
+/**
+ * @typedef {Object} HttpConfig
+ * @property {{ [key: string]: string }} headers
+ * @property {string} baseUrl
+ * @property {boolean} withCredentials
+ * @property {"include" | "omit" | "same-origin"} credentials
+ */
+/**
+ * @template T
+ * @typedef {Object} FetchHookResult
+ * @property {T | null} data
+ * @property {import('@/utils/http').HttpError} error
+ * @property {boolean} loading
+ * @property {(promise: ReturnType<HttpRequest<T,unknown>>) => void} [reload]
+ * @property {(req: RequestInit) => void} [updateRequest]
+ */
