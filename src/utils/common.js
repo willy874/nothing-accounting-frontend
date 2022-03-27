@@ -38,7 +38,10 @@ export function formUrlEncodedFormat(data) {
 }
 
 export function cloneJson(obj) {
-  return JSON.parse(JSON.stringify(obj));
+  if (obj) {
+    return JSON.parse(JSON.stringify(obj));
+  }
+  return null
 }
 
 export function isDarkMode() {
