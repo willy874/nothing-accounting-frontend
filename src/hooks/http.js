@@ -59,7 +59,7 @@ const { data, error, reload, loading } = useHttpRequest(() => getExample());
 ```
  */
 export function useHttpRequest(req) {
-  const [requestPromise, reload] = useState(req)
+  const [requestPromise, reload] = useState(null)
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -67,6 +67,7 @@ export function useHttpRequest(req) {
     setLoading(true);
     setData(null);
     setError(null);
+    reload(req());
     try {
       requestPromise
         .then((res) => {
