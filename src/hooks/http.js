@@ -1,6 +1,7 @@
 import {
   useEffect,
-  useState
+  useState,
+  useRef
 } from "react";
 import {
   HttpError
@@ -55,11 +56,11 @@ export function useFetch(req, payload) {
  * @returns {FetchHookResult<T>}
  * @example
 ```js
-const { data, error, reload, loading } = useHttpRequest(() => getExample());
+const { data, error, loading } = useHttpRequest(() => getExample());
 ```
  */
 export function useHttpRequest(req) {
-  const [requestPromise, reload] = useState(null)
+  const request = useRef(req)
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -67,9 +68,8 @@ export function useHttpRequest(req) {
     setLoading(true);
     setData(null);
     setError(null);
-    reload(req());
     try {
-      requestPromise
+      request()
         .then((res) => {
           if (res instanceof HttpError) {
             throw res
@@ -82,11 +82,11 @@ export function useHttpRequest(req) {
       setLoading(false);
       setError(error);
     }
-  }, [requestPromise])
+  }, [request])
   return {
     data,
     error,
-    reload,
-    loading
+    loading,
+    reload: (func) => (request.current = func)
   }
 }
