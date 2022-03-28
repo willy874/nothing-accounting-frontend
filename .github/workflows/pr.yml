@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: PR
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  pull_request:
+    branches: [dev, dev-willy, dev-pencil, dev-haha]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Discord notification
+        if: ${{ github.actor }} == 'zoeGuava'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_EMBEDS: >
+            [{"image":{"url": "https://i.imgur.com/z4T9RNE.jpg"}, 
+              "description": "${{ github.actor }} MAKING BREAKING CHANGES AGAIN? [PR](https://github.com/willy874/nothing-accounting-frontend/pull/${{ github.event.number }})"}]
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "The project {{ EVENT_PAYLOAD.repository.full_name }} has been sent PR by ${{ github.actor }}"
