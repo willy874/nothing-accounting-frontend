@@ -7,6 +7,7 @@ import { DispatchType } from "@/enums";
 import { getExample } from "@/services/example";
 import { useHttpRequest } from "@/hooks";
 import { Dialog } from "@/components/dialog";
+import Img from "@/components/Image";
 
 export default function Home() {
   const [count, setCount] = useState(0);
@@ -26,6 +27,8 @@ export default function Home() {
         {/* TODO use context */}
         <button onClick={() => setCancel(!cancel)}>dialog open</button>
         {cancel && <Dialog onCancel={() => setCancel(!cancel)} />}
+        {/* svg component */}
+        <Img svg={"example"} width={50} height={50} />
 
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
