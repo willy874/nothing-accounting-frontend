@@ -27,7 +27,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_EMBEDS: >
             [{"image":{"url": "https://i.imgur.com/z4T9RNE.jpg"}, 
-              "description": "${{ github.actor }} MAKING BREAKING CHANGES AGAIN? [PR](https://github.com/willy874/nothing-accounting-frontend/pull/${{ github.event.number }})"}]
+              "description": "${{ github.actor }} What did you break in Production this time?...?"}]
         uses: Ilshidur/action-discord@master
         with:
           args: "The project {{ EVENT_PAYLOAD.repository.full_name }} has been sent PR by ${{ github.actor }}"
@@ -38,7 +38,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_EMBEDS: >
             [{"image":{"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvbBjzIaUrQ2tZS07RpB6CCnFnLkcO5K8nrQ&usqp=CAU"}, 
-              "description": "${{ github.actor }} MAKING BREAKING CHANGES AGAIN? [PR](https://github.com/willy874/nothing-accounting-frontend/pull/${{ github.event.number }})"}]
+              "description": "${{ github.actor }} why you do this? I'm getting emotional scarring from this"}]
         uses: Ilshidur/action-discord@master
         with:
           args: "The project {{ EVENT_PAYLOAD.repository.full_name }} has been sent PR by ${{ github.actor }}"
