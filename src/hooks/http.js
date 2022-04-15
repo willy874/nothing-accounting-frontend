@@ -69,7 +69,7 @@ export function useHttpRequest(req) {
     setData(null);
     setError(null);
     try {
-      request()
+      request.current()
         .then((res) => {
           if (res instanceof HttpError) {
             throw res

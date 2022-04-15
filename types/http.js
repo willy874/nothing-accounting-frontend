@@ -30,6 +30,6 @@
  * @property {T | null} data
  * @property {import('@/utils/http').HttpError} error
  * @property {boolean} loading
- * @property {(promise: ReturnType<HttpRequest<T,unknown>>) => void} [reload]
+ * @property {(promise: () => ReturnType<HttpRequest<T,unknown>>) => void} [reload]
  * @property {(req: RequestInit) => void} [updateRequest]
  */
