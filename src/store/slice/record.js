@@ -40,5 +40,5 @@ export const recordSlice = createSlice({
 });
 
 export const { getRecord, addRecord, deleteRecord } = recordSlice.actions;
-export const selectAll = (state) => state.recordSlice;
+export const selectRecords = (state) => state.record;
 export default recordSlice.reducer;
