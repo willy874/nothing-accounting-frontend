@@ -1,9 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initTodos = {
-  value: 0,
-};
-
 export const todoSlice = createSlice({
   name: "todo",
   initialState: {
