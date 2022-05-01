@@ -59,6 +59,9 @@ jobs:
       - name: Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_EMBEDS: >
+            [{"image":{"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvbBjzIaUrQ2tZS07RpB6CCnFnLkcO5K8nrQ&usqp=CAU"}, 
+              "description": "${{ github.actor }} MAKING BREAKING CHANGES AGAIN? [PR](https://github.com/willy874/nothing-accounting-frontend/pull/${{ github.event.number }})"}]
         uses: Ilshidur/action-discord@master
         with:
           args: "The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed ${{ github.actor }}."
@@ -67,6 +70,9 @@ jobs:
         if: ${{ failure() }}
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_EMBEDS: >
+            [{"image":{"url": "https://img1.ak.crunchyroll.com/i/spire3/99e76e97ea61aedea2ff1b5e1ad970151224084248_full.jpg"}, 
+              "description": "${{ github.actor }} MAKING BREAKING CHANGES AGAIN? [PR](https://github.com/willy874/nothing-accounting-frontend/pull/${{ github.event.number }})"}]
         uses: Ilshidur/action-discord@master
         with:
-          args: "The project {{ EVENT_PAYLOAD.repository.full_name }} has failed the pipeline"
+          args: "The project {{ EVENT_PAYLOAD.repository.full_name }} has failed to be deployed ${{ github.actor }}."
