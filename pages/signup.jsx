@@ -2,27 +2,54 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <section>
+    <section className="flex flex-col gap-4 px-4">
       <h1>註冊頁面</h1>
+      <form>
+        <label className="mb-2 block">
+          <span className="block">Nickname</span>
+          <input
+            type="text"
+            placeholder="nickname"
+            className="border border-solid border-black"
+          />
+        </label>
 
-      <label htmlFor="nickname">暱稱</label>
-      <input type="text" name="nickname" />
+        <label className="block">
+          <span className="block">Username</span>
+          <input
+            type="text"
+            placeholder="username"
+            className="border border-solid border-black"
+          />
+        </label>
 
-      <label htmlFor="username">帳號</label>
-      <input type="text" name="username" />
+        <label className="block">
+          <span className="block">Password</span>
+          <input
+            type="text"
+            placeholder="password"
+            className="border border-solid border-black"
+          />
+        </label>
 
-      <label htmlFor="password">密碼</label>
-      <input type="text" name="password" />
+        <label className="block">
+          <span className="block">Check Password</span>
+          <input
+            type="text"
+            placeholder="check-password"
+            className="border border-solid border-black"
+          />
+        </label>
+      </form>
 
-      <label htmlFor="check-password">確認密碼</label>
-      <input type="text" name="check-password" />
+      <button className="block w-2/3 bg-blue-400 p-2">註冊</button>
 
-      <button>註冊</button>
-
-      <p>已經有帳號了嗎？</p>
-      <Link href="/login">
-        <a>登入</a>
-      </Link>
+      <div className="rounded-sm border border-solid border-gray-500 px-4 py-2 shadow-sm">
+        <p>已經有帳號了嗎？</p>
+        <Link href="/login">
+          <a>登入</a>
+        </Link>
+      </div>
     </section>
   );
 }
