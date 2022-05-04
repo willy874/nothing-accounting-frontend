@@ -8,6 +8,7 @@ import { getExample } from "@/services/example";
 import { useHttpRequest } from "@/hooks";
 import { Dialog } from "@/components/dialog";
 import Img from "@/components/Image";
+import Link from "next/link";
 
 export default function Home() {
   const [count, setCount] = useState(0);
@@ -51,6 +52,22 @@ export default function Home() {
         {getters.example.exampleList.map((example) => (
           <div key={example.id}>{example.id}</div>
         ))}
+
+        <div className="relative border border-solid border-black bg-white p-4 hover:bg-black">
+          <Link href="/login">
+            <a className="text-black after:absolute after:top-0 after:bottom-0 after:right-0 after:left-0 after:content-[''] hover:text-white">
+              登入
+            </a>
+          </Link>
+        </div>
+        <div className="relative border border-solid border-black bg-white p-4 hover:bg-black">
+          <Link href="/signup">
+            <a className="text-black after:absolute after:top-0 after:bottom-0 after:right-0 after:left-0 after:content-[''] hover:text-white">
+              註冊
+            </a>
+          </Link>
+        </div>
+
         <p className={styles.description}>
           Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
