@@ -10,7 +10,7 @@ function LoginLabel({ label, value, handleChange }) {
         placeholder={label}
         onInput={handleChange}
         value={value}
-        className="border border-solid border-black"
+        className="w-full border border-solid border-black"
       />
       <p>
         {label}: {value}
@@ -23,6 +23,26 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  function handleEmailChange(event) {
+    const value = event.target.value;
+    setEmail(value);
+  }
+
+  function handlePasswordChange(event) {
+    const value = event.target.value;
+    setPassword(value);
+  }
+
+  function checkLoginData(email, password) {
+    if (email === "admin" && password === "admin") {
+      return true;
+    }
+  }
+
+  function handleSubmit() {
+    checkLoginData(email, password);
+  }
+
   return (
     <section className="flex flex-col gap-4 px-4">
       <h1 className="text-lg">登入頁面</h1>
@@ -31,17 +51,25 @@ export default function Home() {
         <LoginLabel
           label="Email"
           value={email}
-          handleChange={(e) => setEmail(e.target.value)}
+          handleChange={handleEmailChange}
         />
 
         <LoginLabel
           label="Password"
           value={password}
-          handleChange={(e) => setPassword(e.target.value)}
+          handleChange={handlePasswordChange}
         />
       </form>
 
-      <button className="block w-2/3 bg-blue-400 p-2">登入</button>
+      <div className="border border-solid border-blue-500">
+        <button
+          className="w-full bg-blue-400 p-4"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          登入
+        </button>
+      </div>
 
       <div className="rounded-sm border border-solid border-gray-500 px-4 py-2 shadow-sm">
         <p>還沒有帳號嗎？</p>
