@@ -8,7 +8,7 @@ function LoginLabel({ label, value, handleChange }) {
       <input
         type="text"
         placeholder={label}
-        onInput={handleChange}
+        onChange={handleChange}
         value={value}
         className="w-full border border-solid border-black"
       />
@@ -18,6 +18,9 @@ function LoginLabel({ label, value, handleChange }) {
     </label>
   );
 }
+
+const EMAIL_REGEX =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -34,20 +37,42 @@ export default function Home() {
   }
 
   function checkLoginData(email, password) {
-    if (email === "admin" && password === "admin") {
-      return true;
+    const validateEmail = email.match(EMAIL_REGEX);
+    const validatePassword = !!password.trim() && password.length > 0;
+
+    return { validateEmail, validatePassword };
+  }
+
+  function renderLoginStatus(emailState, passwordState) {
+    console.log("renderLoginStatus", emailState, passwordState);
+
+    if (emailState && passwordState) {
+      console.log("login success");
+      // return <div>登入成功</div>;
+    } else {
+      console.log("login fail");
+      // return <div>登入失敗</div>;
     }
   }
 
-  function handleSubmit() {
-    checkLoginData(email, password);
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log("submit the login data: ", email, password);
+
+    const loginValidation = checkLoginData(email, password);
+    console.log(checkLoginData(email, password));
+
+    renderLoginStatus(
+      loginValidation.validateEmail,
+      loginValidation.validatePassword
+    );
   }
 
   return (
     <section className="flex flex-col gap-4 px-4">
       <h1 className="text-lg">登入頁面</h1>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <LoginLabel
           label="Email"
           value={email}
@@ -62,13 +87,12 @@ export default function Home() {
       </form>
 
       <div className="border border-solid border-blue-500">
-        <button
-          className="w-full bg-blue-400 p-4"
+        <input
+          className="w-full cursor-pointer bg-blue-400 p-4"
           type="submit"
+          value="登入"
           onClick={handleSubmit}
-        >
-          登入
-        </button>
+        />
       </div>
 
       <div className="rounded-sm border border-solid border-gray-500 px-4 py-2 shadow-sm">
