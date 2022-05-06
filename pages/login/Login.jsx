@@ -47,6 +47,17 @@ export default function Home() {
 
     checkLoginInfo(validateEmail, validatePassword);
   }
+  async function testData(query) {
+    const options = {
+      method: "GET",
+      body: JSON.stringify(query),
+    };
+    console.log(query);
+    const res = await fetch("/api/users");
+    const data = await res.json();
+    console.log("test data: ", data);
+  }
+  testData({ eamil: "test@qq.com" });
 
   return (
     <section className="flex flex-col gap-4 px-4">
