@@ -1,26 +1,6 @@
 import Link from "next/link";
 import { useState } from "react/cjs/react.development";
-
-function LoginLabel({ label, value, handleChange }) {
-  return (
-    <label className="mb-2 block">
-      <span className="block">{label}</span>
-      <input
-        type="text"
-        placeholder={label}
-        onChange={handleChange}
-        value={value}
-        className="w-full border border-solid border-black"
-      />
-      <p>
-        {label}: {value}
-      </p>
-    </label>
-  );
-}
-
-const EMAIL_REGEX =
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import LoginLabel from "./components/LoginLabel";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -36,15 +16,18 @@ export default function Home() {
     setPassword(value);
   }
 
-  function checkLoginData(email, password) {
-    const validateEmail = email.match(EMAIL_REGEX);
+  function checkInput(email, password) {
+    const EMAIL_REGEX =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const validateEmail = EMAIL_REGEX.test(email);
     const validatePassword = !!password.trim() && password.length > 0;
 
     return { validateEmail, validatePassword };
   }
 
-  function renderLoginStatus(emailState, passwordState) {
-    console.log("renderLoginStatus", emailState, passwordState);
+  function checkLoginInfo(emailState, passwordState) {
+    console.log("checkLoginInfo", emailState, passwordState);
+    // TODO: submit email and password to server check account information
 
     if (emailState && passwordState) {
       console.log("login success");
@@ -59,13 +42,10 @@ export default function Home() {
     event.preventDefault();
     console.log("submit the login data: ", email, password);
 
-    const loginValidation = checkLoginData(email, password);
-    console.log(checkLoginData(email, password));
+    const { validateEmail, validatePassword } = checkInput(email, password);
+    console.log(checkInput(email, password));
 
-    renderLoginStatus(
-      loginValidation.validateEmail,
-      loginValidation.validatePassword
-    );
+    checkLoginInfo(validateEmail, validatePassword);
   }
 
   return (
