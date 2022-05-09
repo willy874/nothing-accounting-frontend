@@ -1,26 +1,22 @@
 const DEFAULT_CONFIG = {
-  id: 'id',
-  children: 'children',
-  pid: 'pid',
+  id: "id",
+  children: "children",
+  pid: "pid",
 };
 
 const getConfig = (config) => Object.assign({}, DEFAULT_CONFIG, config);
 
 /**
  * @template T
- * @param {T[]} list 
- * @param {Partial<typeof DEFAULT_CONFIG>} config 
+ * @param {T[]} list
+ * @param {Partial<typeof DEFAULT_CONFIG>} config
  * @returns {T[]}
  */
 export function listToTree(list, config = {}) {
-  const conf = getConfig(config)
+  const conf = getConfig(config);
   const nodeMap = new Map();
   const result = [];
-  const {
-    id,
-    children,
-    pid
-  } = conf;
+  const { id, children, pid } = conf;
 
   for (const node of list) {
     node[children] = node[children] || [];
@@ -35,15 +31,13 @@ export function listToTree(list, config = {}) {
 
 /**
  * @template T
- * @param {T[]} tree 
- * @param {Partial<typeof DEFAULT_CONFIG>} config 
+ * @param {T[]} tree
+ * @param {Partial<typeof DEFAULT_CONFIG>} config
  * @returns {T[]}
  */
 export function treeToList(tree, config = {}) {
   config = getConfig(config);
-  const {
-    children
-  } = config;
+  const { children } = config;
   const result = [...tree];
   for (let i = 0; i < result.length; i++) {
     if (!result[i][children]) continue;
@@ -54,20 +48,14 @@ export function treeToList(tree, config = {}) {
 
 /**
  * @template T
- * @param {T[]} tree 
- * @param {(node: T) => boolean} func 
- * @param {Partial<typeof DEFAULT_CONFIG>} config 
+ * @param {T[]} tree
+ * @param {(node: T) => boolean} func
+ * @param {Partial<typeof DEFAULT_CONFIG>} config
  * @returns {T}
  */
-export function findNode(
-  tree,
-  func,
-  config = {},
-) {
+export function findNode(tree, func, config = {}) {
   config = getConfig(config);
-  const {
-    children
-  } = config;
+  const { children } = config;
   const list = [...tree];
   for (const node of list) {
     if (func(node)) return node;
@@ -78,20 +66,14 @@ export function findNode(
 
 /**
  * @template T
- * @param {T[]} tree 
- * @param {(node: T) => boolean} func 
- * @param {Partial<typeof DEFAULT_CONFIG>} config 
+ * @param {T[]} tree
+ * @param {(node: T) => boolean} func
+ * @param {Partial<typeof DEFAULT_CONFIG>} config
  * @returns {T[]}
  */
-export function findNodeAll(
-  tree,
-  func,
-  config = {},
-) {
+export function findNodeAll(tree, func, config = {}) {
   config = getConfig(config);
-  const {
-    children
-  } = config;
+  const { children } = config;
   const list = [...tree];
   const result = [];
   for (const node of list) {
@@ -103,23 +85,17 @@ export function findNodeAll(
 
 /**
  * @template T
- * @param {T[]} tree 
- * @param {(node: T) => boolean} func 
- * @param {Partial<typeof DEFAULT_CONFIG>} config 
+ * @param {T[]} tree
+ * @param {(node: T) => boolean} func
+ * @param {Partial<typeof DEFAULT_CONFIG>} config
  * @returns {T|T[]|null}
  */
-export function findPath(
-  tree,
-  func,
-  config = {},
-) {
+export function findPath(tree, func, config = {}) {
   config = getConfig(config);
   const path = [];
   const list = [...tree];
   const visitedSet = new Set();
-  const {
-    children
-  } = config;
+  const { children } = config;
   while (list.length) {
     const node = list[0];
     if (visitedSet.has(node)) {
@@ -139,9 +115,9 @@ export function findPath(
 
 /**
  * @template T
- * @param {T[]} tree 
- * @param {(node: T) => boolean} func 
- * @param {Partial<typeof DEFAULT_CONFIG>} config 
+ * @param {T[]} tree
+ * @param {(node: T) => boolean} func
+ * @param {Partial<typeof DEFAULT_CONFIG>} config
  * @returns {T[][]}
  */
 export function findPathAll(tree, func, config = {}) {
@@ -150,9 +126,7 @@ export function findPathAll(tree, func, config = {}) {
   const list = [...tree];
   const result = [];
   const visitedSet = new Set(),
-    {
-      children
-    } = config;
+    { children } = config;
   while (list.length) {
     const node = list[0];
     if (visitedSet.has(node)) {
@@ -170,23 +144,19 @@ export function findPathAll(tree, func, config = {}) {
 
 /**
  * @template T
- * @param {T[]} tree 
- * @param {(node: T) => boolean} func 
- * @param {Partial<typeof DEFAULT_CONFIG>} config 
+ * @param {T[]} tree
+ * @param {(node: T) => boolean} func
+ * @param {Partial<typeof DEFAULT_CONFIG>} config
  * @returns {T[]}
  */
-export function filter(
-  tree,
-  func,
-  config = {},
-) {
+export function filter(tree, func, config = {}) {
   config = getConfig(config);
   const children = config.children;
 
   function listFilter(list) {
     return list
       .map((node) => ({
-        ...node
+        ...node,
       }))
       .filter((node) => {
         node[children] = node[children] && listFilter(node[children]);
@@ -198,41 +168,37 @@ export function filter(
 
 /**
  * @template T
- * @param {T[]} tree 
- * @param {(node: T) => boolean} func 
- * @param {Partial<typeof DEFAULT_CONFIG>} config 
+ * @param {T[]} tree
+ * @param {(node: T) => boolean} func
+ * @param {Partial<typeof DEFAULT_CONFIG>} config
  * @returns {void}
  */
-export function forEach(
-  tree,
-  func,
-  config = {},
-) {
+export function forEach(tree, func, config = {}) {
   config = getConfig(config);
   const list = [...tree];
-  const {
-    children
-  } = config;
+  const { children } = config;
   for (let i = 0; i < list.length; i++) {
     //func 返回true就终止遍历，避免大量节点场景下无意义循环，引起浏览器卡顿
     if (func(list[i])) {
       return;
     }
-    children && list[i][children] && list.splice(i + 1, 0, ...list[i][children]);
+    children &&
+      list[i][children] &&
+      list.splice(i + 1, 0, ...list[i][children]);
   }
 }
 
 /**
  * @template T
- * @typedef {Object} TreeMapOption 
- * @property {string} children 
- * @property {(data: T) => object} conversion 
+ * @typedef {Object} TreeMapOption
+ * @property {string} children
+ * @property {(data: T) => object} conversion
  */
 
 /**
  * @description: Extract tree specified structure
  * @template T
- * @param {T[]} tree 
+ * @param {T[]} tree
  * @param {TreeMapOption<T>} opt
  * @return {T[]}
  */
@@ -243,15 +209,13 @@ export function treeMap(tree, opt) {
 /**
  * @description: Extract tree specified structure
  * @template T
- * @param {T} data 
+ * @param {T} data
  * @param {TreeMapOption<T>} opt
  * @return {T}
  */
-export function treeMapEach(data, {
-  children,
-  conversion
-}) {
-  const haveChildren = Array.isArray(data[children]) && data[children].length > 0;
+export function treeMapEach(data, { children, conversion }) {
+  const haveChildren =
+    Array.isArray(data[children]) && data[children].length > 0;
   const conversionData = conversion(data) || {};
   if (haveChildren) {
     return {
@@ -260,7 +224,7 @@ export function treeMapEach(data, {
         treeMapEach(i, {
           children,
           conversion,
-        }),
+        })
       ),
     };
   } else {
@@ -283,4 +247,10 @@ export function eachNodeTree(tree, func, parentNode) {
       eachNodeTree(element.childNodes, func, newNode);
     }
   });
+}
+
+// number to thousandths currency
+export function toCurrency(num) {
+  let parts = num.toString().split(".")[0];
+  return parts.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
