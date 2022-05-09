@@ -1,4 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {
+  getExample,
+  createExample,
+  updateExample,
+  deleteExample,
+} from "@/services/example";
 
 const initRecords = [
   {
@@ -23,22 +29,25 @@ export const recordSlice = createSlice({
   reducers: {
     getRecord(state) {
       // get all records
-      // TODO fetch data
+      getExample();
     },
     addRecord(state, action) {
       // add new record
-      state.initRecords.push({
-        id: Date.now(),
-        memo: action.payload,
-      });
+      const newData = { ...action.payload.record, id: Date.now() };
+      createExample(newData);
+    },
+    updateRecord(state, action) {
+      // update data
+      updateExample(action.payload.record);
     },
     deleteRecord(state, action) {
       // delete a record
-      state.slice();
+      deleteExample(action.payload.record.id);
     },
   },
 });
 
-export const { getRecord, addRecord, deleteRecord } = recordSlice.actions;
+export const { getRecord, addRecord, updateRecord, deleteRecord } =
+  recordSlice.actions;
 export const selectRecords = (state) => state.record;
 export default recordSlice.reducer;
