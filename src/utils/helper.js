@@ -284,3 +284,9 @@ export function eachNodeTree(tree, func, parentNode) {
     }
   });
 }
+
+// number to thousandths currency
+export function toCurrency(num) {
+  let parts = num.toString().split(".")[0];
+  return parts.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
